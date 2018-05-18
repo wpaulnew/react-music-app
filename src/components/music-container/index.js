@@ -54,7 +54,9 @@ export default class MusicContainer extends Component {
                 id: null,
                 audio : null, // SRC песни
 
-                loop : false
+                loop : false,
+                time : 0,
+                duration : 0
             }
         );
         this.toggle = this.toggle.bind(this);
@@ -66,6 +68,8 @@ export default class MusicContainer extends Component {
         this.ended = this.ended.bind(this);
         this.repeat = this.repeat.bind(this);
         this.close = this.close.bind(this);
+        this.time = this.time.bind(this);
+        this.timeline = this.timeline.bind(this);
 
         // Наша дорожка
         this.audio = this.refs.audio;
@@ -258,6 +262,28 @@ export default class MusicContainer extends Component {
             }
         );
     };
+
+    // Текущие веря дорожки
+    time = () => {
+        // console.log('Текущие время песни', this.audio.currentTime);
+        // console.log('Общие время песни', this.audio.duration);
+        this.setState(
+            {
+                time : this.audio.currentTime
+            }
+        );
+    };
+
+    // Для изменения значения дорожки
+    timeline = (time) => {
+        console.log('Изменил время с ', this.audio.currentTime, 'на', time);
+        this.audio.currentTime = time;
+        this.setState(
+            {
+                time : this.audio.currentTime
+            }
+        );
+    };
     render() {
         return (
             <div className='music-container'>
@@ -266,6 +292,7 @@ export default class MusicContainer extends Component {
                     ref={(ref) => {this.audio = ref}}
                     // controls
                     autoPlay
+                    onTimeUpdate={this.time}
                     onEnded={this.ended}
                 />
                 <div className='roll'>
@@ -290,7 +317,11 @@ export default class MusicContainer extends Component {
                 <div className='walk-container'>
                     <div className="walk">
                         <About/>
-                        <Timeline/>
+                        <Timeline
+                            time = {this.state.time}
+                            timeline = {this.timeline}
+                            duration = '283.697813'
+                        />
                         <Control
                             id = {this.state.id}
                             inactive = {this.state.inactive}
