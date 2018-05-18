@@ -1,5 +1,12 @@
 .view {
     background: #ffffff;
+    z-index: 3;
+    position: absolute;
+    width: 100%;
+}
+
+.view-disabled {
+    display: none;
 }
 
 .about {
@@ -60,6 +67,8 @@
 }
 
 .view-text {
+    width: 100%;
+    box-sizing: border-box;
     padding: 10px 46px 0 46px;
     position: fixed;
     height: 100%;

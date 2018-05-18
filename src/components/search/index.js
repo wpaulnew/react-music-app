@@ -26,7 +26,7 @@ export default class Search extends React.Component {
         );
         axios({
             method:'POST',
-            url:'http://192.168.0.89/quest.php',
+            url:'http://192.168.0.89/api/quest.php',
             data: qs.stringify(
                 {
                     'text': this.refs.input.value

@@ -29,8 +29,8 @@ export default class Audio extends React.Component {
                         <p className='music-executor'>{this.props.executor}</p>
                     </div>
                     <div className='music-internal'>
-                        <p className='music-time'>5:04</p>
-                        <button className='button-speech'></button>
+                        {/*<p className='music-time'>5:04</p>*/}
+                        <button className='button-speech' onClick={()=>this.props.view(this.props.text)}></button>
                     </div>
                 </div>
             </div>

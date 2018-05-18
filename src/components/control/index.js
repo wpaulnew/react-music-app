@@ -26,7 +26,6 @@ export default class Control extends React.Component {
                     :
                     <button className='button-play' onClick={()=>this.props.on(this.props.id)}></button>
                     }
-
                     {
                         this.props.settings.right
                         ?
