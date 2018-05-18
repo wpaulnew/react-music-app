@@ -14,31 +14,37 @@ const api = [
     {
         'id': 1,
         'forename': 'Лучший Друг',
+        'executor' : 'Они',
         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016031822245518.mp3'
     },
     {
         'id': 2,
         'forename': 'Я склоняюсь',
+        'executor' : 'Supernatural Worship',
         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040804041935.mp3'
     },
     {
         'id': 3,
         'forename': 'Семья',
+        'executor' : 'Спасение церковь г. Вишневое',
         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805060492.mp3'
     },
     {
         'id': 4,
         'forename': 'Не знаю',
+        'executor' : 'Ольга Вельгус',
         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805331139.mp3'
     },
     {
         'id': 5,
         'forename': 'Тоже что-то',
+        'executor' : 'Слово Жизни Youth',
         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805292193.mp3'
     },
     {
         'id': 6,
         'forename': 'Лошадь',
+        'executor' : 'Imprintband',
         'audio': 'https://www.w3schools.com/html/horse.mp3'
     }
 ];
@@ -56,7 +62,10 @@ export default class MusicContainer extends Component {
 
                 loop : false,
                 time : 0,
-                duration : 0
+                duration : 0,
+
+                forename : null,
+                executor : null
             }
         );
         this.toggle = this.toggle.bind(this);
@@ -70,6 +79,7 @@ export default class MusicContainer extends Component {
         this.close = this.close.bind(this);
         this.time = this.time.bind(this);
         this.timeline = this.timeline.bind(this);
+        this.duration = this.duration.bind(this);
 
         // Наша дорожка
         this.audio = this.refs.audio;
@@ -77,6 +87,8 @@ export default class MusicContainer extends Component {
         // Reds
         this.audios = [];
     }
+
+    // Управление из кнопки уадиодорожки
     toggle = (id) => {
         // 1 Не играет и не выбрана
         if (this.state.id === null) {
@@ -86,6 +98,8 @@ export default class MusicContainer extends Component {
                 {
                     id: id,
                     audio: api[id-1].audio,
+                    forename :  api[id-1].forename,
+                    executor :  api[id-1].executor,
                     inactive : true
                 }
             );
@@ -112,6 +126,8 @@ export default class MusicContainer extends Component {
                     {
                         id: id,
                         audio: api[id-1].audio,
+                        forename :  api[id-1].forename,
+                        executor :  api[id-1].executor,
                         inactive : true
                     }
                 );
@@ -130,6 +146,8 @@ export default class MusicContainer extends Component {
                     {
                         id: id,
                         audio: api[id-1].audio,
+                        forename :  api[id-1].forename,
+                        executor :  api[id-1].executor,
                         inactive : true
                     }
                 );
@@ -145,6 +163,8 @@ export default class MusicContainer extends Component {
             this.audio.play();
         }
     };
+
+    // Продолжить играть
     on = (id) => {
         // console.log('on', id);
         this.audios[id].setAttribute('class', 'music-button-pause');
@@ -155,6 +175,8 @@ export default class MusicContainer extends Component {
         );
         this.audio.play();
     };
+
+    // Приостановить
     off = (id) => {
         // console.log('off', id);
         this.audios[id].setAttribute('class', 'music-button-play');
@@ -165,6 +187,8 @@ export default class MusicContainer extends Component {
         );
         this.audio.pause();
     };
+
+    // Возврат на один трек назад
     left = (id) => {
         const next = id - 1;
         // Всего песен
@@ -181,12 +205,16 @@ export default class MusicContainer extends Component {
                 {
                     id: next,
                     audio: api[next-1].audio,
+                    forename :  api[id-1].forename,
+                    executor :  api[id-1].executor,
                     inactive : true
                 }
             );
             this.audios[next].setAttribute('class', 'music-button-pause');
         }
     };
+
+    // Для переключение на следующий трек
     right = (id) => {
         const next = id + 1;
 
@@ -194,6 +222,11 @@ export default class MusicContainer extends Component {
         const lenght = api.length;
         if (next > lenght) {
             console.log('В перед больше нельзя');
+
+            /**
+             * Начать играть треки с самого начала
+             */
+
             this.audios[id].setAttribute('class', 'music-button-play');
             this.setState(
                 {
@@ -212,6 +245,8 @@ export default class MusicContainer extends Component {
                 {
                     id: next,
                     audio: api[next-1].audio,
+                    forename :  api[id-1].forename,
+                    executor :  api[id-1].executor,
                     inactive : true
                 }
             );
@@ -219,6 +254,8 @@ export default class MusicContainer extends Component {
             this.audios[next].setAttribute('class', 'music-button-pause');
         }
     };
+
+    // Если песня завершилась вызывется
     ended = () => {
         const id = this.state.id;
         console.log('Песня ' + id + ' завершилась');
@@ -227,6 +264,8 @@ export default class MusicContainer extends Component {
             this.right(id);
         }
     };
+
+    // Включение повтора песни
     repeat = () => {
         // console.log('repeat');
         if (this.state.loop === false) {
@@ -249,6 +288,8 @@ export default class MusicContainer extends Component {
             );
         }
     };
+
+    // Для закрытия понели в месте с песней
     close = () => {
         this.audio.pause();
         this.audio.currentTime = 0;
@@ -257,6 +298,8 @@ export default class MusicContainer extends Component {
             {
                 id : null,
                 audio : null,
+                forename :  null,
+                executor :  null,
                 inactive : false,
                 loop: false
             }
@@ -284,6 +327,17 @@ export default class MusicContainer extends Component {
             }
         );
     };
+
+    // Получает значение общего времени трека
+    duration = ()=> {
+        const duration = this.audio.duration;
+        this.setState(
+            {
+                duration : duration
+            }
+        );
+    };
+
     render() {
         return (
             <div className='music-container'>
@@ -292,6 +346,7 @@ export default class MusicContainer extends Component {
                     ref={(ref) => {this.audio = ref}}
                     // controls
                     autoPlay
+                    onPlay={this.duration}
                     onTimeUpdate={this.time}
                     onEnded={this.ended}
                 />
@@ -308,6 +363,7 @@ export default class MusicContainer extends Component {
                                     reference={(ref) => this.audios[road.id] = ref}
                                     toggle = {this.toggle}
                                     forename = {road.forename}
+                                    executor = {road.executor}
                                 />
                             );
                         })
@@ -316,11 +372,14 @@ export default class MusicContainer extends Component {
                 </div>
                 <div className='walk-container'>
                     <div className="walk">
-                        <About/>
+                        <About
+                            forename = {this.state.forename}
+                            executor = {this.state.executor}
+                        />
                         <Timeline
                             time = {this.state.time}
                             timeline = {this.timeline}
-                            duration = '283.697813'
+                            duration = {this.state.duration}
                         />
                         <Control
                             id = {this.state.id}
