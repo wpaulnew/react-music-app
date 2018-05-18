@@ -38,6 +38,19 @@
     background-color: #323232;
     border: none;
 }
+.button-left-disabled {
+    outline: none;
+    box-sizing: border-box;
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    -webkit-mask: url("./svg/left.svg") no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: 13px;
+    background-color: #ffffff;
+    border: none;
+}
 
 .button-pause {
     outline: none;
@@ -78,6 +91,19 @@
     -webkit-mask-position: center;
     -webkit-mask-size: 13px;
     background-color: #323232;
+    border: none;
+}
+.button-right-disabled {
+    outline: none;
+    box-sizing: border-box;
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    -webkit-mask: url('./svg/right.svg') no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: 13px;
+    background-color: #ffffff;
     border: none;
 }
 

@@ -5,11 +5,9 @@ import icon from './img/icon.png';
 
 
 export default class About extends React.Component {
-
-    componentDidMount() {
-        // console.log(this.props.thematic);
+    constructor(props) {
+        super(props);
     }
-
     render() {
         return (
             <div className='about'>
@@ -20,7 +18,7 @@ export default class About extends React.Component {
                 </div>
                 <div className='pull'>
                     <button className='button-view'></button>
-                    <button className='button-download'></button>
+                    <a href={this.props.download} className='button-download' download={this.props.forename}></a>
                 </div>
             </div>
         );

@@ -1,12 +1,7 @@
 import React from 'react';
 import './index.css';
 // Components
-import Menu from '../menu/index.js';
-import Audio from '../audio/index.js';
-// import Performers from '../performers/index.js';
-import Thematic from '../thematic/index.js';
 import Search from '../search/index.js';
-import View from '../view/index.js';
 import MusicContainer from "../music-container/index";
 
 export default class App extends React.Component {
@@ -54,7 +49,7 @@ export default class App extends React.Component {
                             {/*? <Thematic />*/}
                             {/*: null*/}
                     {/*}*/}
-                    <Menu thematic={this.state.thematic} handleClick={this.handleClick.bind(this)} />
+                    {/*<Menu thematic={this.state.thematic} handleClick={this.handleClick.bind(this)} />*/}
                 </div>
             </div>
         );

@@ -13,6 +13,10 @@ body {
 
 #root {
     height: 100%;
+    box-sizing: border-box;
+    overflow: scroll;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .app-container{

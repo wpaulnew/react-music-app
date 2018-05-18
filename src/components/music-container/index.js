@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import Audio from '../audio/index.js';
 import '../audio/index.css';
 import Control from '../control/index.js';
@@ -10,45 +9,7 @@ import Timeline from "../timeline/index";
 import '../timeline/index.css';
 import './index.css';
 import axios from 'axios';
-
-// const api = [
-//     {
-//         'id': 1,
-//         'forename': 'Лучший Друг',
-//         'executor' : 'Они',
-//         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016031822245518.mp3'
-//     },
-//     {
-//         'id': 2,
-//         'forename': 'Я склоняюсь',
-//         'executor' : 'Supernatural Worship',
-//         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040804041935.mp3'
-//     },
-//     {
-//         'id': 3,
-//         'forename': 'Семья',
-//         'executor' : 'Спасение церковь г. Вишневое',
-//         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805060492.mp3'
-//     },
-//     {
-//         'id': 4,
-//         'forename': 'Не знаю',
-//         'executor' : 'Ольга Вельгус',
-//         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805331139.mp3'
-//     },
-//     {
-//         'id': 5,
-//         'forename': 'Тоже что-то',
-//         'executor' : 'Слово Жизни Youth',
-//         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805292193.mp3'
-//     },
-//     {
-//         'id': 6,
-//         'forename': 'Лошадь',
-//         'executor' : 'Imprintband',
-//         'audio': 'https://www.w3schools.com/html/horse.mp3'
-//     }
-// ];
+import qs from 'qs';
 
 // https://www.w3schools.com/html/horse.mp3
 
@@ -65,7 +26,11 @@ export default class MusicContainer extends Component {
                 duration : 0,
                 forename : null,
                 executor : null,
-                audios : []
+                download: null,
+                audios : [],
+
+                left : true,
+                right : true
             }
         );
         this.toggle = this.toggle.bind(this);
@@ -80,6 +45,7 @@ export default class MusicContainer extends Component {
         this.time = this.time.bind(this);
         this.timeline = this.timeline.bind(this);
         this.duration = this.duration.bind(this);
+        this.download = this.download.bind(this);
 
         // Наша дорожка
         this.audio = this.refs.audio;
@@ -135,16 +101,30 @@ export default class MusicContainer extends Component {
             );
         }
     }
-
-    quest = () => {
-        console.log('Отображаю результаты');
-        this.props.quest();
-    };
-
     // Управление из кнопки уадиодорожки
     toggle = (id) => {
         // 1 Не играет и не выбрана
         if (this.state.id === null) {
+            // Всего песен
+            const lenght = this.state.audios.length;
+            const right = id;
+            const left = id;
+            if (right ===  lenght) {
+                this.setState(
+                    {
+                        right : false,
+                        left : true
+                    }
+                );
+            }
+            if (left === 1) {
+                this.setState(
+                    {
+                        left : false,
+                        right : true
+                    }
+                );
+            }
             // console.log('Не играет и не выбрана');
             this.audios[id].setAttribute('class', 'music-button-pause');
             this.setState(
@@ -153,6 +133,7 @@ export default class MusicContainer extends Component {
                     audio: this.state.audios[id-1].audio,
                     forename : this.state.audios[id-1].forename,
                     executor : this.state.audios[id-1].executor,
+                    download : this.state.audios[id-1].audio,
                     inactive : true
                 }
             );
@@ -160,6 +141,26 @@ export default class MusicContainer extends Component {
 
         // 2 Играет и выбрана
         if(this.audio.paused === false && this.state.id !== null && this.state.inactive === true) {
+            // Всего песен
+            const lenght = this.state.audios.length;
+            const right = id;
+            const left = id;
+            if (right ===  lenght) {
+                this.setState(
+                    {
+                        right : false,
+                        left : true
+                    }
+                );
+            }
+            if (left === 1) {
+                this.setState(
+                    {
+                        left : false,
+                        right : true
+                    }
+                );
+            }
             // console.log('Играет и выбрана');
             if (this.state.id === id) {
                 // console.log('Номера песен равны');
@@ -173,6 +174,26 @@ export default class MusicContainer extends Component {
             }
 
             if (this.state.id !== id) {
+                // Всего песен
+                const lenght = this.state.audios.length;
+                const right = id;
+                const left = id;
+                if (right ===  lenght) {
+                    this.setState(
+                        {
+                            right : false,
+                            left : true
+                        }
+                    );
+                }
+                if (left === 1) {
+                    this.setState(
+                        {
+                            left : false,
+                            right : true
+                        }
+                    );
+                }
                 console.log('Номера песен не равны');
                 this.audios[this.state.id].setAttribute('class', 'music-button-play');
                 this.setState(
@@ -181,6 +202,7 @@ export default class MusicContainer extends Component {
                         audio: this.state.audios[id-1].audio,
                         forename :  this.state.audios[id-1].forename,
                         executor :  this.state.audios[id-1].executor,
+                        download : this.state.audios[id-1].audio,
                         inactive : true
                     }
                 );
@@ -201,6 +223,7 @@ export default class MusicContainer extends Component {
                         audio: this.state.audios[id-1].audio,
                         forename :  this.state.audios[id-1].forename,
                         executor :  this.state.audios[id-1].executor,
+                        download : this.state.audios[id-1].audio,
                         inactive : true
                     }
                 );
@@ -244,23 +267,32 @@ export default class MusicContainer extends Component {
     // Возврат на один трек назад
     left = (id) => {
         const next = id - 1;
-        // Всего песен
-        const lenght = this.state.audios.length;
+
         if (next === 0) {
             console.log('Назад больше нельзя');
             return false;
         }
 
         if (next > 0 ) {
+            const left = next - 1;
+            if (left === 0) {
+                this.setState(
+                    {
+                        left : false
+                    }
+                );
+            }
             console.log('Включина песня', id - 1);
             this.audios[id].setAttribute('class', 'music-button-play');
             this.setState(
                 {
                     id: next,
                     audio: this.state.audios[next-1].audio,
-                    forename :  this.state.audios[id-1].forename,
-                    executor :  this.state.audios[id-1].executor,
-                    inactive : true
+                    forename :  this.state.audios[next-1].forename,
+                    executor :  this.state.audios[next-1].executor,
+                    download : this.state.audios[next-1].audio,
+                    inactive : true,
+                    right : true
                 }
             );
             this.audios[next].setAttribute('class', 'music-button-pause');
@@ -270,7 +302,6 @@ export default class MusicContainer extends Component {
     // Для переключение на следующий трек
     right = (id) => {
         const next = id + 1;
-
         // Всего песен
         const lenght = this.state.audios.length;
         if (next > lenght) {
@@ -292,15 +323,25 @@ export default class MusicContainer extends Component {
         }
 
         if (next <= lenght) {
+            const right = next + 1;
+            if (right > lenght) {
+                this.setState(
+                    {
+                        right : false
+                    }
+                );
+            }
             console.log('Включина песня', id + 1);
             this.audios[id].setAttribute('class', 'music-button-play');
             this.setState(
                 {
                     id: next,
                     audio: this.state.audios[next-1].audio,
-                    forename :  this.state.audios[id-1].forename,
-                    executor :  this.state.audios[id-1].executor,
-                    inactive : true
+                    forename :  this.state.audios[next - 1].forename,
+                    executor :  this.state.audios[next - 1].executor,
+                    download : this.state.audios[next -1].audio,
+                    inactive : true,
+                    left : true
                 }
             );
             // this.audio.play();
@@ -354,6 +395,7 @@ export default class MusicContainer extends Component {
                 forename :  null,
                 executor :  null,
                 inactive : false,
+                download : null,
                 loop: false
             }
         );
@@ -389,6 +431,22 @@ export default class MusicContainer extends Component {
                 duration : duration
             }
         );
+    };
+
+    // Для загрузки дорожки
+    download = () => {
+        axios({
+            method:'POST',
+            url:'http://192.168.0.89/download.php',
+            data: qs.stringify(
+                {
+                    'download': this.state.download
+                }
+            )
+        })
+        .then((reply)=>{
+
+        });
     };
     render() {
         return (
@@ -445,6 +503,7 @@ export default class MusicContainer extends Component {
                         <About
                             forename = {this.state.forename}
                             executor = {this.state.executor}
+                            download = {this.state.download}
                         />
                         <Timeline
                             time = {this.state.time}
@@ -457,8 +516,8 @@ export default class MusicContainer extends Component {
                             on = {this.on}
                             off = {this.off}
                             left={this.left}
+                            settings = {{'loop':this.state.loop, 'left' : this.state.left, 'right' : this.state.right}}
                             right={this.right}
-                            loop = {this.state.loop}
                             repeat = {this.repeat}
                             close = {this.close}
                         />
