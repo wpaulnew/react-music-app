@@ -9,45 +9,46 @@ import '../about/index.css';
 import Timeline from "../timeline/index";
 import '../timeline/index.css';
 import './index.css';
+import axios from 'axios';
 
-const api = [
-    {
-        'id': 1,
-        'forename': 'Лучший Друг',
-        'executor' : 'Они',
-        'audio': 'http://fonki.pro/plugin/sounds/uploads/2016031822245518.mp3'
-    },
-    {
-        'id': 2,
-        'forename': 'Я склоняюсь',
-        'executor' : 'Supernatural Worship',
-        'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040804041935.mp3'
-    },
-    {
-        'id': 3,
-        'forename': 'Семья',
-        'executor' : 'Спасение церковь г. Вишневое',
-        'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805060492.mp3'
-    },
-    {
-        'id': 4,
-        'forename': 'Не знаю',
-        'executor' : 'Ольга Вельгус',
-        'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805331139.mp3'
-    },
-    {
-        'id': 5,
-        'forename': 'Тоже что-то',
-        'executor' : 'Слово Жизни Youth',
-        'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805292193.mp3'
-    },
-    {
-        'id': 6,
-        'forename': 'Лошадь',
-        'executor' : 'Imprintband',
-        'audio': 'https://www.w3schools.com/html/horse.mp3'
-    }
-];
+// const api = [
+//     {
+//         'id': 1,
+//         'forename': 'Лучший Друг',
+//         'executor' : 'Они',
+//         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016031822245518.mp3'
+//     },
+//     {
+//         'id': 2,
+//         'forename': 'Я склоняюсь',
+//         'executor' : 'Supernatural Worship',
+//         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040804041935.mp3'
+//     },
+//     {
+//         'id': 3,
+//         'forename': 'Семья',
+//         'executor' : 'Спасение церковь г. Вишневое',
+//         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805060492.mp3'
+//     },
+//     {
+//         'id': 4,
+//         'forename': 'Не знаю',
+//         'executor' : 'Ольга Вельгус',
+//         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805331139.mp3'
+//     },
+//     {
+//         'id': 5,
+//         'forename': 'Тоже что-то',
+//         'executor' : 'Слово Жизни Youth',
+//         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805292193.mp3'
+//     },
+//     {
+//         'id': 6,
+//         'forename': 'Лошадь',
+//         'executor' : 'Imprintband',
+//         'audio': 'https://www.w3schools.com/html/horse.mp3'
+//     }
+// ];
 
 // https://www.w3schools.com/html/horse.mp3
 
@@ -59,13 +60,12 @@ export default class MusicContainer extends Component {
                 inactive : false, // Кнопки выключены у компонентов
                 id: null,
                 audio : null, // SRC песни
-
                 loop : false,
                 time : 0,
                 duration : 0,
-
                 forename : null,
-                executor : null
+                executor : null,
+                audios : []
             }
         );
         this.toggle = this.toggle.bind(this);
@@ -88,6 +88,59 @@ export default class MusicContainer extends Component {
         this.audios = [];
     }
 
+    componentDidMount() {
+        axios.get('http://192.168.0.89/')
+        .then((audios) => {
+            this.setState({
+                audios : audios.data
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    componentWillReceiveProps(props) {
+        if(this.state.inactive === true) {
+            this.audio.pause();
+            this.audio.currentTime = 0;
+            this.audios[this.state.id].setAttribute('class', 'music-button-play');
+            this.setState(
+                (prevState) => ({
+                    inactive: false, // Кнопки выключены у компонентов
+                    id: null,
+                    audio: null, // SRC песни
+                    loop: false,
+                    time: 0,
+                    duration: 0,
+                    forename: null,
+                    executor: null,
+                    audios: prevState.audios = props.quest
+                })
+            );
+        }
+        if (this.state.inactive === false) {
+            this.setState(
+                (prevState) => ({
+                    inactive: false, // Кнопки выключены у компонентов
+                    id: null,
+                    audio: null, // SRC песни
+                    loop: false,
+                    time: 0,
+                    duration: 0,
+                    forename: null,
+                    executor: null,
+                    audios: prevState.audios = props.quest
+                })
+            );
+        }
+    }
+
+    quest = () => {
+        console.log('Отображаю результаты');
+        this.props.quest();
+    };
+
     // Управление из кнопки уадиодорожки
     toggle = (id) => {
         // 1 Не играет и не выбрана
@@ -97,9 +150,9 @@ export default class MusicContainer extends Component {
             this.setState(
                 {
                     id: id,
-                    audio: api[id-1].audio,
-                    forename :  api[id-1].forename,
-                    executor :  api[id-1].executor,
+                    audio: this.state.audios[id-1].audio,
+                    forename : this.state.audios[id-1].forename,
+                    executor : this.state.audios[id-1].executor,
                     inactive : true
                 }
             );
@@ -125,9 +178,9 @@ export default class MusicContainer extends Component {
                 this.setState(
                     {
                         id: id,
-                        audio: api[id-1].audio,
-                        forename :  api[id-1].forename,
-                        executor :  api[id-1].executor,
+                        audio: this.state.audios[id-1].audio,
+                        forename :  this.state.audios[id-1].forename,
+                        executor :  this.state.audios[id-1].executor,
                         inactive : true
                     }
                 );
@@ -145,9 +198,9 @@ export default class MusicContainer extends Component {
                 this.setState(
                     {
                         id: id,
-                        audio: api[id-1].audio,
-                        forename :  api[id-1].forename,
-                        executor :  api[id-1].executor,
+                        audio: this.state.audios[id-1].audio,
+                        forename :  this.state.audios[id-1].forename,
+                        executor :  this.state.audios[id-1].executor,
                         inactive : true
                     }
                 );
@@ -192,7 +245,7 @@ export default class MusicContainer extends Component {
     left = (id) => {
         const next = id - 1;
         // Всего песен
-        const lenght = api.length;
+        const lenght = this.state.audios.length;
         if (next === 0) {
             console.log('Назад больше нельзя');
             return false;
@@ -204,9 +257,9 @@ export default class MusicContainer extends Component {
             this.setState(
                 {
                     id: next,
-                    audio: api[next-1].audio,
-                    forename :  api[id-1].forename,
-                    executor :  api[id-1].executor,
+                    audio: this.state.audios[next-1].audio,
+                    forename :  this.state.audios[id-1].forename,
+                    executor :  this.state.audios[id-1].executor,
                     inactive : true
                 }
             );
@@ -219,7 +272,7 @@ export default class MusicContainer extends Component {
         const next = id + 1;
 
         // Всего песен
-        const lenght = api.length;
+        const lenght = this.state.audios.length;
         if (next > lenght) {
             console.log('В перед больше нельзя');
 
@@ -244,9 +297,9 @@ export default class MusicContainer extends Component {
             this.setState(
                 {
                     id: next,
-                    audio: api[next-1].audio,
-                    forename :  api[id-1].forename,
-                    executor :  api[id-1].executor,
+                    audio: this.state.audios[next-1].audio,
+                    forename :  this.state.audios[id-1].forename,
+                    executor :  this.state.audios[id-1].executor,
                     inactive : true
                 }
             );
@@ -259,7 +312,7 @@ export default class MusicContainer extends Component {
     ended = () => {
         const id = this.state.id;
         console.log('Песня ' + id + ' завершилась');
-        const lenght = api.length;
+        const lenght = this.state.audios.length;
         if (id <= lenght) {
             this.right(id);
         }
@@ -337,7 +390,6 @@ export default class MusicContainer extends Component {
             }
         );
     };
-
     render() {
         return (
             <div className='music-container'>
@@ -352,18 +404,36 @@ export default class MusicContainer extends Component {
                 />
                 <div className='roll'>
                     {
-                        api.map((road)=>{
+                        this.props.quest
+                        ?
+                        this.props.quest.map((audio)=>{
                             return(
                                 <Audio
-                                    key = {road.id}
-                                    id = {road.id}
+                                    key = {audio.id}
+                                    id = {audio.id}
                                     inactive = {this.state.inactive}
                                     on = {this.on}
                                     off = {this.off}
-                                    reference={(ref) => this.audios[road.id] = ref}
+                                    reference={(ref) => this.audios[audio.id] = ref}
                                     toggle = {this.toggle}
-                                    forename = {road.forename}
-                                    executor = {road.executor}
+                                    forename = {audio.forename}
+                                    executor = {audio.executor}
+                                />
+                            );
+                        })
+                        :
+                        this.state.audios.map((audio)=>{
+                            return(
+                                <Audio
+                                    key = {audio.id}
+                                    id = {audio.id}
+                                    inactive = {this.state.inactive}
+                                    on = {this.on}
+                                    off = {this.off}
+                                    reference={(ref) => this.audios[audio.id] = ref}
+                                    toggle = {this.toggle}
+                                    forename = {audio.forename}
+                                    executor = {audio.executor}
                                 />
                             );
                         })

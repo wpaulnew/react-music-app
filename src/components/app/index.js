@@ -8,21 +8,29 @@ import Thematic from '../thematic/index.js';
 import Search from '../search/index.js';
 import View from '../view/index.js';
 import MusicContainer from "../music-container/index";
-// API
-// import api from '../api/index.json';
 
 export default class App extends React.Component {
 
     constructor() {
         super();
         this.state = ({
+            quest : null,
             thematic: false
         });
+        this.quest = this.quest.bind(this);
     }
 
     componentDidMount() {
-        // console.log(api);
+
     }
+    // Что бы покласть данные в api
+    quest = (data) => {
+        this.setState(
+            (prevState) => ({
+                quest: prevState.quest = data
+            })
+        );
+    };
 
     handleClick = () => {
         this.setState({
@@ -35,9 +43,9 @@ export default class App extends React.Component {
         return (
             <div className='app-container'>
                 <div className='app'>
-                    <Search />
+                    <Search quest={this.quest} />
                     {/*<div className='music-container' id='music-container'>*/}
-                        <MusicContainer/>
+                    <MusicContainer quest = {this.state.quest}/>
                     {/*</div>*/}
                     {/*<View/>*/}
                     {/* <Performers /> */}
@@ -46,13 +54,6 @@ export default class App extends React.Component {
                             {/*? <Thematic />*/}
                             {/*: null*/}
                     {/*}*/}
-                    {/*<div className='walk-container'>*/}
-                        {/*<div className="walk">*/}
-                            {/*<About/>*/}
-                            {/*<Timeline/>*/}
-                            {/*<Control/>*/}
-                        {/*</div>*/}
-                    {/*</div>*/}
                     <Menu thematic={this.state.thematic} handleClick={this.handleClick.bind(this)} />
                 </div>
             </div>
