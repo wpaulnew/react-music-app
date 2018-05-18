@@ -12,7 +12,7 @@ export default class Control extends React.Component {
             <div className='control'>
                 <button className='button-repeat'></button>
                 <div>
-                    <button className='button-left'></button>
+                    <button className='button-left' onClick={()=>this.props.left(this.props.id)}></button>
                     {
                     this.props.inactive
                     ?
@@ -20,7 +20,7 @@ export default class Control extends React.Component {
                     :
                     <button className='button-play' onClick={()=>this.props.on(this.props.id)}></button>
                     }
-                    <button className='button-right'></button>
+                    <button className='button-right'onClick={()=>this.props.right(this.props.id)}></button>
                 </div>
                 <button className='button-close'></button>
             </div>

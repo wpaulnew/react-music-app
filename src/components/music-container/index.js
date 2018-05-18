@@ -28,20 +28,17 @@ const api = [
     },
     {
         'id': 4,
-        'forename': 'Не плачь',
-        'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805060492.mp3'
-    },
-    {
-        'id': 5,
-        'forename': 'Иерусалим',
+        'forename': 'Не знаю',
         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805331139.mp3'
     },
     {
-        'id': 6,
-        'forename': 'Измени меня',
+        'id': 5,
+        'forename': 'Тоже что-то',
         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805292193.mp3'
     }
 ];
+
+// https://www.w3schools.com/html/horse.mp3
 
 export default class MusicContainer extends Component {
     constructor(props) {
@@ -53,11 +50,15 @@ export default class MusicContainer extends Component {
                 audio : null // SRC песни
             }
         );
-        this.on = this.on.bind(this);
-        this.off = this.off.bind(this);
         this.toggle = this.toggle.bind(this);
 
-        // Для управления аудио
+        this.on = this.on.bind(this);
+        this.off = this.off.bind(this);
+        this.left = this.left.bind(this);
+        this.right = this.right.bind(this);
+        this.ended = this.ended.bind(this);
+
+        // Наша дорожка
         this.audio = this.refs.audio;
 
         // Reds
@@ -151,9 +152,66 @@ export default class MusicContainer extends Component {
         );
         this.audio.pause();
     };
-    componentDidMount() {
-        // console.log(api[1].audio);
-    }
+    left = (id) => {
+        const next = id - 1;
+        // Всего песен
+        const lenght = api.length;
+        if (next === 0) {
+            console.log('Назад больше нельзя');
+            return false;
+        }
+
+        if (next > 0 ) {
+            console.log('Включина песня', id - 1);
+            this.audios[id].setAttribute('class', 'music-button-play');
+            this.setState(
+                {
+                    id: next,
+                    audio: api[next-1].audio,
+                    inactive : true
+                }
+            );
+            this.audios[next].setAttribute('class', 'music-button-pause');
+        }
+    };
+    right = (id) => {
+        const next = id + 1;
+
+        // Всего песен
+        const lenght = api.length;
+        if (next > lenght) {
+            console.log('В перед больше нельзя');
+            this.audios[id].setAttribute('class', 'music-button-play');
+            this.setState(
+                {
+                    inactive : false
+                }
+            );
+            return false;
+        }
+
+        if (next <= lenght) {
+            console.log('Включина песня', id + 1);
+            this.audios[id].setAttribute('class', 'music-button-play');
+            this.setState(
+                {
+                    id: next,
+                    audio: api[next-1].audio,
+                    inactive : true
+                }
+            );
+            this.audio.play();
+            this.audios[next].setAttribute('class', 'music-button-pause');
+        }
+    };
+    ended = () => {
+        const id = this.state.id;
+        console.log('Песня ' + id + ' завершилась');
+        const lenght = api.length;
+        if (id <= lenght) {
+            this.right(id);
+        }
+    };
     render() {
         return (
             <div className='music-container'>
@@ -162,6 +220,7 @@ export default class MusicContainer extends Component {
                     ref={(ref) => {this.audio = ref}}
                     // controls
                     autoPlay
+                    onEnded={this.ended}
                 />
                 <div className='roll'>
                     {
@@ -193,6 +252,8 @@ export default class MusicContainer extends Component {
                             inactive = {this.state.inactive}
                             on = {this.on}
                             off = {this.off}
+                            left={this.left}
+                            right={this.right}
                         />
                     </div>
                 </div>
