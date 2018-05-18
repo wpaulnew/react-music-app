@@ -1,0 +1,19 @@
+.thematic {
+    background: #ffffff;
+    padding: 0 26px 14px 26px;
+}
+
+.letter {
+    font-style: italic;
+    font-size: 26px;
+    padding: 14px 0 14px 0;
+    color: #535353;
+    margin: 0;
+}
+
+.forename {
+    margin: 0;
+    padding: 7px 0 7px 0;
+    font-size: 14px;
+    color: #6A6A6A;
+}

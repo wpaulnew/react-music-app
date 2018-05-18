@@ -1,0 +1,90 @@
+.view {
+    background: #ffffff;
+}
+
+.about {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    background: #ffffff;
+    height: 60px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0 26px 0 26px;
+    /*position: fixed;*/
+    /*left: 0;*/
+    /*top: 0;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+}
+
+.about-forename {
+    color: #6A6A6A;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.about-executor {
+    color: #929292;
+    font-size: 10px;
+    margin: 0;
+}
+
+.img-about {
+    margin: 0 7px 0 0;
+}
+
+.pull {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+}
+
+.button-close {
+    outline: none;
+    box-sizing: border-box;
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    -webkit-mask: url("./svg/close.svg") no-repeat;
+    -webkit-mask-position: right;
+    -webkit-mask-size: 13px;
+    background-color: #929292;
+    border: none;
+}
+
+.view-text {
+    padding: 10px 46px 0 46px;
+    position: fixed;
+    height: 100%;
+    overflow: scroll;
+    background: #ffffff;
+    z-index: -1;
+}
+
+.view-text::-webkit-scrollbar {
+    display: none;
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 0 160px 0;
+}
+
+.text b:first-child {
+    margin: 0 0 11px 0;
+}
+
+.text b {
+    margin: 21px 0 2px 0;
+}

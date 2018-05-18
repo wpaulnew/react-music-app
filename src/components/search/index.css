@@ -1,0 +1,27 @@
+.search {
+    width: auto;
+    height: 60px;
+    min-height: 60px;
+    background: #ffffff;
+    display: flex;
+}
+
+.input-search {
+    outline: none;
+    flex-grow: 1;
+    padding: 0 0 0 26px;
+    height: 60px;
+    box-sizing: border-box;
+    border: none;
+    line-height: 60px;
+}
+
+.button-search {
+    background: #ffffff;
+    outline: none;
+    padding: 0;
+    width: 60px;
+    border: none;
+    height: 60px;
+    box-sizing: border-box;
+}

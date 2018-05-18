@@ -1,0 +1,55 @@
+.menu {
+    padding: 0 26px 0 26px;
+    height: 60px;
+    background: #ffffff;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    min-height: 60px;
+}
+
+.button-music {
+    outline: none;
+    box-sizing: border-box;
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    -webkit-mask: url("./svg/music.svg") no-repeat;
+    -webkit-mask-position: left;
+    -webkit-mask-size: 19px;
+    background-color: #323232;
+    border: none;
+}
+
+.button-loading {
+    outline: none;
+    box-sizing: border-box;
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    -webkit-mask: url("./svg/loading.svg") no-repeat;
+    -webkit-mask-position: center;
+    background-color: #323232;
+    -webkit-mask-size: 19px;
+    border: none;
+}
+
+.button-thematic {
+    outline: none;
+    box-sizing: border-box;
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    -webkit-mask: url("./svg/thematic.svg") no-repeat;
+    -webkit-mask-position: right;
+    -webkit-mask-size: 19px;
+    background-color: #323232;
+    border: none;
+}
+
+.pressed {
+    background-color: #2196F3;
+}
