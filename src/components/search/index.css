@@ -4,6 +4,7 @@
     min-height: 60px;
     background: #ffffff;
     display: flex;
+    z-index: 2;
 }
 
 .input-search {

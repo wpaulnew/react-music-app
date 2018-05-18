@@ -13,7 +13,7 @@ export default class About extends React.Component {
     render() {
         return (
             <div className='about'>
-                <img src={icon} className='img-about'/>
+                {/*<img src={icon} className='img-about'/>*/}
                 <div>
                     <p className='about-forename'>Прославлю Тебя в шторм</p>
                     <p className='about-executor'>Алексей Каратаев</p>

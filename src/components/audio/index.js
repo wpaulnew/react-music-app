@@ -25,7 +25,7 @@ export default class Audio extends React.Component {
                 </div>
                 <div className='music-information'>
                     <div className='music-about'>
-                        <p className='music-forename'>Название</p>
+                        <p className='music-forename'>{this.props.forename}</p>
                         <p className='music-executor'>Автор</p>
                     </div>
                     <div className='music-internal'>
