@@ -10,7 +10,7 @@ export default class Control extends React.Component {
     render() {
         return (
             <div className='control'>
-                <button className='button-repeat'></button>
+                    <button className={this.props.loop ? 'button-repeat disabled' : 'button-repeat'} onClick={this.props.repeat}></button>
                 <div>
                     <button className='button-left' onClick={()=>this.props.left(this.props.id)}></button>
                     {
@@ -22,7 +22,7 @@ export default class Control extends React.Component {
                     }
                     <button className='button-right'onClick={()=>this.props.right(this.props.id)}></button>
                 </div>
-                <button className='button-close'></button>
+                <button className='button-close' onClick={this.props.close}></button>
             </div>
         );
     }

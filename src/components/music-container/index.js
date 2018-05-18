@@ -35,6 +35,11 @@ const api = [
         'id': 5,
         'forename': 'Тоже что-то',
         'audio': 'http://fonki.pro/plugin/sounds/uploads/2016040805292193.mp3'
+    },
+    {
+        'id': 6,
+        'forename': 'Лошадь',
+        'audio': 'https://www.w3schools.com/html/horse.mp3'
     }
 ];
 
@@ -47,7 +52,9 @@ export default class MusicContainer extends Component {
             {
                 inactive : false, // Кнопки выключены у компонентов
                 id: null,
-                audio : null // SRC песни
+                audio : null, // SRC песни
+
+                loop : false
             }
         );
         this.toggle = this.toggle.bind(this);
@@ -57,6 +64,8 @@ export default class MusicContainer extends Component {
         this.left = this.left.bind(this);
         this.right = this.right.bind(this);
         this.ended = this.ended.bind(this);
+        this.repeat = this.repeat.bind(this);
+        this.close = this.close.bind(this);
 
         // Наша дорожка
         this.audio = this.refs.audio;
@@ -184,6 +193,8 @@ export default class MusicContainer extends Component {
             this.audios[id].setAttribute('class', 'music-button-play');
             this.setState(
                 {
+                    id: null,
+                    audio: null,
                     inactive : false
                 }
             );
@@ -200,7 +211,7 @@ export default class MusicContainer extends Component {
                     inactive : true
                 }
             );
-            this.audio.play();
+            // this.audio.play();
             this.audios[next].setAttribute('class', 'music-button-pause');
         }
     };
@@ -211,6 +222,41 @@ export default class MusicContainer extends Component {
         if (id <= lenght) {
             this.right(id);
         }
+    };
+    repeat = () => {
+        // console.log('repeat');
+        if (this.state.loop === false) {
+            console.log('Повтор включен');
+            this.audio.loop = true;
+            this.setState(
+                {
+                    loop : true
+                }
+            );
+        }
+
+        if (this.state.loop === true) {
+            this.audio.loop = false;
+            console.log('Повтор выключен');
+            this.setState(
+                {
+                    loop : false
+                }
+            );
+        }
+    };
+    close = () => {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.audios[this.state.id].setAttribute('class', 'music-button-play');
+        this.setState(
+            {
+                id : null,
+                audio : null,
+                inactive : false,
+                loop: false
+            }
+        );
     };
     render() {
         return (
@@ -241,8 +287,6 @@ export default class MusicContainer extends Component {
                     }
                     <p className='roll-notification'>Подгружаю песни</p>
                 </div>
-                {/*<br/>*/}
-                {/*<p><b>{this.state.inactive ? 'Включина песня - ' + this.state.id: 'Выключина - ' + this.state.id}</b></p>*/}
                 <div className='walk-container'>
                     <div className="walk">
                         <About/>
@@ -254,6 +298,9 @@ export default class MusicContainer extends Component {
                             off = {this.off}
                             left={this.left}
                             right={this.right}
+                            loop = {this.state.loop}
+                            repeat = {this.repeat}
+                            close = {this.close}
                         />
                     </div>
                 </div>

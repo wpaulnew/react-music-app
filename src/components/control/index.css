@@ -21,6 +21,10 @@
     border: none;
 }
 
+.disabled {
+    background-color: #2196F3;
+}
+
 .button-left{
     outline: none;
     box-sizing: border-box;
