@@ -4,6 +4,8 @@ import './index.css';
 import Search from '../search/index.js';
 import MusicContainer from "../music-container/index";
 import View from "../view/index";
+import Menu from '../menu/index.js';
+import '../menu/index.css';
 import axios from 'axios';
 
 export default class App extends React.Component {
@@ -14,6 +16,8 @@ export default class App extends React.Component {
             quest : null,
             thematic: false,
             text : null,
+            forename : null,
+            executor : null,
             view: false,
         });
         this.quest = this.quest.bind(this);
@@ -21,11 +25,12 @@ export default class App extends React.Component {
         this.notview = this.notview.bind(this);
     }
     // Достает текст песни для показа
-    view = (text) => {
-        // console.log(text);
+    view = (text, forename, executor) => {
         this.setState(
             {
                 text : text,
+                forename : forename,
+                executor : executor,
                 view : true
             }
         );
@@ -48,7 +53,9 @@ export default class App extends React.Component {
         console.log('Закрыл слова песни');
         this.setState(
             {
-                text : '',
+                text : null,
+                forename : null,
+                executor : null,
                 view : false
             }
         );
@@ -83,6 +90,8 @@ export default class App extends React.Component {
                     />
                     <View
                         text = {this.state.text}
+                        forename = {this.state.forename}
+                        executor = {this.state.executor}
                         notview = {this.notview}
                         settings = {{view:this.state.view}}
                     />
@@ -95,7 +104,7 @@ export default class App extends React.Component {
                             {/*? <Thematic />*/}
                             {/*: null*/}
                     {/*}*/}
-                    {/*<Menu thematic={this.state.thematic} handleClick={this.handleClick.bind(this)} />*/}
+                    <Menu thematic={this.state.thematic} handleClick={this.handleClick.bind(this)} />
                 </div>
             </div>
         );

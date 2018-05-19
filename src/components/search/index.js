@@ -48,9 +48,7 @@ export default class Search extends React.Component {
                     value={this.state.text}
                     placeholder='У тебя все получиться!'
                 />
-                <button className='button-search'>
-                    <span className='lnr lnr-chevron-down'></span>
-                </button>
+                <button className='button-search'></button>
             </div>
         );
     }

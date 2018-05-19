@@ -32,6 +32,7 @@ export default class MusicContainer extends Component {
                 text : '',
                 left : true,
                 right : true,
+                roundtime : 0 // Кружок под кнопкой
             }
         );
         this.toggle = this.toggle.bind(this);
@@ -75,6 +76,8 @@ export default class MusicContainer extends Component {
                 // this.audio.currentTime = 0;
                 if (this.state.id !== null) {
                     this.audios[this.state.id].setAttribute('class', 'music-button-play');
+                    // Добавляет или удаляем круг времени
+                    this.audios[this.state.id].childNodes[0].childNodes[0].setAttribute('class','circle-disabled');
                 }
                 this.setState(
                     (prevState) => ({
@@ -126,6 +129,10 @@ export default class MusicContainer extends Component {
             }
             // console.log('Не играет и не выбрана');
             this.audios[id].setAttribute('class', 'music-button-pause');
+
+            // Добавляет или удаляем круг времени
+            this.audios[id].childNodes[0].childNodes[0].setAttribute('class','circle');
+
             this.setState(
                 {
                     id: id,
@@ -137,6 +144,7 @@ export default class MusicContainer extends Component {
                     inactive : true
                 }
             );
+
         }
 
         // 2 Играет и выбрана
@@ -165,6 +173,10 @@ export default class MusicContainer extends Component {
             if (this.state.id === id) {
                 // console.log('Номера песен равны');
                 this.audios[id].setAttribute('class', 'music-button-play');
+
+                // Добавляет или удаляем круг времени
+                this.audios[id].childNodes[0].childNodes[0].setAttribute('class','circle');
+
                 this.setState(
                     {
                         inactive : false
@@ -194,8 +206,22 @@ export default class MusicContainer extends Component {
                         }
                     );
                 }
-                console.log('Номера песен не равны');
+
+                if (right !== lenght && left !== 1) {
+                    this.setState(
+                        {
+                            right : true,
+                            left : true
+                        }
+                    );
+                }
+
+                // console.log('Номера песен не равны');
                 this.audios[this.state.id].setAttribute('class', 'music-button-play');
+
+                // Добавляет или удаляем круг времени
+                this.audios[this.state.id].childNodes[0].childNodes[0].setAttribute('class','circle-disabled');
+
                 this.setState(
                     {
                         id: id,
@@ -207,6 +233,11 @@ export default class MusicContainer extends Component {
                     }
                 );
                 this.audios[id].setAttribute('class', 'music-button-pause');
+
+                // Добавляет или удаляем круг времени
+                this.audios[id].childNodes[0].childNodes[0].setAttribute('class','circle');
+
+
                 // this.audio.pause();
             }
         }
@@ -217,6 +248,10 @@ export default class MusicContainer extends Component {
             if (this.state.id !== id) {
                 // console.log('Номера песен не равны');
                 this.audios[this.state.id].setAttribute('class', 'music-button-play');
+
+                // Добавляет или удаляем круг времени
+                this.audios[this.state.id].childNodes[0].childNodes[0].setAttribute('class','circle-disabled');
+
                 this.setState(
                     {
                         id: id,
@@ -229,9 +264,16 @@ export default class MusicContainer extends Component {
                     }
                 );
                 this.audios[this.state.id].setAttribute('class', 'music-button-play');
+
+                // Добавляет или удаляем круг времени
+                this.audios[this.state.id].childNodes[0].childNodes[0].setAttribute('class','circle-disabled');
                 this.audio.play();
             }
             this.audios[id].setAttribute('class', 'music-button-pause');
+
+            // Добавляет или удаляем круг времени
+            this.audios[id].childNodes[0].childNodes[0].setAttribute('class','circle');
+
             this.setState(
                 {
                     inactive : !this.state.inactive
@@ -240,7 +282,6 @@ export default class MusicContainer extends Component {
             this.audio.play();
         }
     };
-
     // Продолжить играть
     on = (id) => {
         // console.log('on', id);
@@ -318,7 +359,10 @@ export default class MusicContainer extends Component {
              * Начать играть треки с самого начала
              */
 
-            this.audios[id].setAttribute('class', 'music-button-play');
+
+            if (this.state.id !== null) {
+                this.audios[this.state.id].setAttribute('class', 'music-button-play');
+            }
             this.setState(
                 {
                     id: null,
@@ -412,6 +456,24 @@ export default class MusicContainer extends Component {
     time = () => {
         // console.log('Текущие время песни', this.audio.currentTime);
         // console.log('Общие время песни', this.audio.duration);
+
+        // console.log(this.audios[this.state.id].childNodes[0].childNodes[0].childNodes[0].childNodes[1].setAttribute('stroke-dashoffset',));
+        // console.log(this.audio.duration);
+
+        // Полное время песни
+        const duration = this.audio.duration;
+
+        // Число на кружке
+        const roundtime = duration / 339.292;
+        this.setState(
+            {
+                roundtime : this.state.roundtime + roundtime
+            }
+        );
+        // console.log(339.292 - this.state.roundtime);
+        console.log(this.audios[this.state.id].childNodes[0].childNodes[0].childNodes[0].childNodes[1].setAttribute('stroke-dashoffset',339.292 - this.state.roundtime));
+        console.log(this.audios[this.state.id].childNodes[0].childNodes[0].childNodes[0].childNodes[1].setAttribute('stroke','#2196f3'));
+
         this.setState(
             {
                 time : this.audio.currentTime
@@ -457,8 +519,14 @@ export default class MusicContainer extends Component {
     };
 
     // Для просмотра слов песни
-    view = (text) => {
-        this.props.view(text);
+    view = (text, forename, executor) => {
+        this.props.view(text, forename, executor);
+    };
+
+    // Для изменения времени круга
+    roundtime = () => {
+        console.log('round');
+
     };
 
     render() {
@@ -491,6 +559,7 @@ export default class MusicContainer extends Component {
                                     executor = {audio.executor}
                                     text = {audio.text}
                                     view={this.view}
+                                    round = {this.state.round}
                                 />
                             );
                         })
@@ -511,13 +580,14 @@ export default class MusicContainer extends Component {
                                     executor = {audio.executor}
                                     text = {audio.text}
                                     view ={this.view}
+                                    round = {this.state.round}
                                 />
                             );
                         })
                         :
                         null
                     }
-                    <p className='roll-notification'>Подгружаю песни</p>
+                    {/*<p className='roll-notification'>Подгружаю песни</p>*/}
                 </div>
                 <div className='walk-container'>
                     <div className="walk">

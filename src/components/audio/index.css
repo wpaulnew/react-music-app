@@ -10,7 +10,18 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-sizing: border-box;
+    padding: 0 0 0 26px;
 }
+
+/*.music {*/
+    /*width: 100%;*/
+    /*background: #ffffff;*/
+    /*height: 60px;*/
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    /*align-items: center;*/
+/*}*/
 
 .music-information {
     height: 60px;
@@ -63,35 +74,49 @@ body {
 
 .music-button-play {
     outline: none;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    width: 60px;
-    height: 60px;
+    width: 17px;
+    height: 17px;
     margin: 0;
-    padding: 0;
-    -webkit-mask: url('./svg/play.svg') no-repeat;
+    background: url(svg/play.svg) no-repeat;
     -webkit-mask-size: 9px;
-    background-color: #323232;
     border: none;
-    -webkit-mask-position: center;
     -webkit-mask-position-x: 16px;
     z-index: 1;
 }
 
-.music-button-pause {
-    outline: none;
-    box-sizing: border-box;
-    width: 60px;
-    height: 60px;
-    margin: 0;
-    padding: 0;
-    -webkit-mask: url('./svg/pause.svg') no-repeat;
-    -webkit-mask-size: 11px;
-    background-color: #323232;
-    border: none;
-    -webkit-mask-position: center;
-    -webkit-mask-position-x: 14px;
-    z-index: 1;
-}
+/*.music-button-play {*/
+    /*outline: none;*/
+    /*box-sizing: border-box;*/
+    /*width: 60px;*/
+    /*height: 60px;*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*-webkit-mask: url('./svg/play.svg') no-repeat;*/
+    /*-webkit-mask-size: 9px;*/
+    /*background-color: #323232;*/
+    /*border: none;*/
+    /*-webkit-mask-position: center;*/
+    /*-webkit-mask-position-x: 16px;*/
+    /*z-index: 1;*/
+/*}*/
+
+/*.music-button-pause {*/
+    /*outline: none;*/
+    /*box-sizing: border-box;*/
+    /*width: 60px;*/
+    /*height: 60px;*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*-webkit-mask: url('./svg/pause.svg') no-repeat;*/
+    /*-webkit-mask-size: 11px;*/
+    /*background-color: #323232;*/
+    /*border: none;*/
+    /*-webkit-mask-position: center;*/
+    /*-webkit-mask-position-x: 14px;*/
+    /*z-index: 1;*/
+/*}*/
 
 .music-forename {
     color: #6A6A6A;
@@ -131,19 +156,39 @@ body {
     /* Сам по себе круг не находиться на своем месте */
     display: block;
     position: relative;
-    right: 71px;
+    /*right: 71px;*/
+    right: 23px;
     bottom: 30px;
 }
 
+
+.circle-disabled {
+    display: none;
+}
 .circle {
     width: 60px;
     height: 60px;
+    -webkit-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
     transform: rotate(270deg);
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: -ms-flexbox;
+    /* display: flex; */
+    -ms-flex-align: center;
+    /* align-items: center; */
+    -ms-flex-pack: center;
+    /* justify-content: center; */
 }
+
+/*.circle {*/
+    /*width: 60px;*/
+    /*height: 60px;*/
+    /*transform: rotate(270deg);*/
+    /*position: absolute;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+/*}*/
 
 .bible-l {
     width: 100px;
@@ -154,8 +199,44 @@ body {
     height: 60px;
 }
 
+.music-button-play {
+    outline: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 11px;
+    height: 11px;
+    background-position: center;
+    background: url(svg/play.svg) no-repeat;
+    border: none;
+    z-index: 1;
+}
+
+.music-button-pause {
+    outline: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 11px;
+    height: 11px;
+    padding: 0 8px;
+    background-position: center;
+    background: url(svg/pause.svg) no-repeat;
+    border: none;
+    z-index: 1;
+}
+
 .music-button {
+    display: -ms-flexbox;
+    -ms-flex-align: center;
+    box-sizing: border-box;
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
-    padding: 0 0 0 26px;
+    justify-content: center;
 }
+
+/*.music-button {*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*padding: 0 0 0 26px;*/
+/*}*/

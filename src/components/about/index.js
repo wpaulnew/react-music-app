@@ -17,7 +17,7 @@ export default class About extends React.Component {
                     <p className='about-executor'>{this.props.executor}</p>
                 </div>
                 <div className='pull'>
-                    <button className='button-view' onClick={()=>this.props.view(this.props.text)}></button>
+                    <button className='button-view' onClick={()=>this.props.view(this.props.text,this.props.forename, this.props.executor)}></button>
                     <a href={this.props.download} className='button-download' download={this.props.forename}></a>
                 </div>
             </div>

@@ -9,7 +9,9 @@ export default class View extends React.Component {
         super(props);
         this.state = (
             {
-                text : ''
+                text : null,
+                forename : null,
+                executor : null
             }
         );
     }
@@ -21,7 +23,9 @@ export default class View extends React.Component {
             // console.log(props.text);
             this.setState(
                 {
-                    text : props.text
+                    text : props.text,
+                    forename: props.forename,
+                    executor: props.executor
                 }
             );
             const div = this.refs.text;
@@ -33,10 +37,10 @@ export default class View extends React.Component {
         return (
             <div className={this.props.settings.view ? 'view' : 'view-disabled'}>
                 <div className='about'>
-                    <img src={icon} className='img-about'/>
+                    {/*<img src={icon} className='img-about'/>*/}
                     <div>
-                        <p className='about-forename'>Прославлю Тебя в шторм</p>
-                        <p className='about-executor'>Алексей Каратаев</p>
+                        <p className='about-forename'>{this.state.forename}</p>
+                        <p className='about-executor'>{this.state.executor}</p>
                     </div>
                     <div className='pull'>
                         <button className='button-close' onClick={this.props.notview}></button>
